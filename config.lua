@@ -15,6 +15,11 @@ lvim.colorscheme = "lunar"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
+vim.opt.linebreak = true
+vim.opt.ignorecase = true
+
+vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
+
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
@@ -37,13 +42,13 @@ lvim.keys.insert_mode["<C-f>"] = "<esc>"
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["o"] = { "<cmd>Telescope find_files<CR>", "Find files" }
 lvim.builtin.which_key.mappings["t"] = {
-	name = "+Trouble",
-	r = { "<cmd>Trouble lsp_references<cr>", "References" },
-	f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-	d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
-	q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
-	l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-	w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
+  name = "+Trouble",
+  r = { "<cmd>Trouble lsp_references<cr>", "References" },
+  f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+  d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
+  q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+  l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+  w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 }
 
 -- TODO: User Config for predefined plugins
@@ -54,21 +59,23 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
+lvim.builtin.which_key.mappings["g"] = { "<cmd>Telescope live_grep<CR>", "Grep in dir" }
+
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
-	"bash",
-	"c",
-	"cpp",
-	"javascript",
-	"json",
-	"lua",
-	"python",
-	"typescript",
-	"tsx",
-	"css",
-	"rust",
-	"yaml",
-	"go",
+  "bash",
+  "c",
+  "cpp",
+  "javascript",
+  "json",
+  "lua",
+  "python",
+  "typescript",
+  "tsx",
+  "css",
+  "rust",
+  "yaml",
+  "go",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -79,9 +86,9 @@ vim.opt.wrap = true
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
 lvim.lsp.installer.setup.ensure_installed = {
-	"sumneko_lua",
-	"clangd",
-	"gopls",
+  "sumneko_lua",
+  "clangd",
+  "gopls",
 }
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
@@ -131,21 +138,21 @@ lvim.lsp.installer.setup.ensure_installed = {
 -- -- set additional linters
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
-	--   { command = "flake8", filetypes = { "python" } },
+  --   { command = "flake8", filetypes = { "python" } },
 
-	--   {
-	--     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-	--     command = "shellcheck",
-	--     ---@usage arguments to pass to the formatter
-	--     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-	--     extra_args = { "--severity", "warning" },
-	--   },
-	--   {
-	--     command = "codespell",
-	--     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-	--     filetypes = { "javascript", "python" },
-	--   },
-	{ command = "golangci-lint", filtypes = { "go" }, extra_args = { "run" } },
+  --   {
+  --     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+  --     command = "shellcheck",
+  --     ---@usage arguments to pass to the formatter
+  --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+  --     extra_args = { "--severity", "warning" },
+  --   },
+  --   {
+  --     command = "codespell",
+  --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+  --     filetypes = { "javascript", "python" },
+  --   },
+  { command = "golangci-lint", filtypes = { "go" }, extra_args = { "run" } },
 })
 
 -- Additional Plugins
@@ -157,56 +164,64 @@ linters.setup({
 -- }
 --
 lvim.plugins = {
-	{ "ray-x/go.nvim" },
-	{
-		"folke/trouble.nvim",
-		cmd = "Trouble",
-	},
-	{
-		"ray-x/lsp_signature.nvim",
-		event = "BufRead",
-		config = function()
-			require("lsp_signature").on_attach()
-		end,
-	},
-	{
-		"ahmedkhalf/lsp-rooter.nvim",
-		event = "BufRead",
-		config = function()
-			require("lsp-rooter").setup()
-		end,
-	},
-	{
-		"rmagatti/goto-preview",
-		config = function()
-			require("goto-preview").setup({
-				width = 140, -- Width of the floating window
-				height = 40, -- Height of the floating window
-				default_mappings = false, -- Bind default mappings
-				debug = false, -- Print debug information
-				opacity = nil, -- 0-100 opacity level of the floating window where 100 is fully transparent.
-				post_open_hook = nil, -- A function taking two arguments, a buffer and a window to be ran as a hook.
-				-- You can use "default_mappings = true" setup option
-				-- Or explicitly set keybindings
-				vim.cmd("nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>"),
-				vim.cmd("nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>"),
-				vim.cmd("nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>"),
-			})
-		end,
-	},
-	{
-		"folke/todo-comments.nvim",
-		event = "BufRead",
-		config = function()
-			require("todo-comments").setup()
-		end,
-	},
+  { "ray-x/go.nvim" },
+  {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "BufRead",
+    config = function()
+      require("lsp_signature").on_attach()
+    end,
+  },
+  {
+    "ahmedkhalf/lsp-rooter.nvim",
+    event = "BufRead",
+    config = function()
+      require("lsp-rooter").setup()
+    end,
+  },
+  {
+    "rmagatti/goto-preview",
+    config = function()
+      require("goto-preview").setup({
+        width = 140, -- Width of the floating window
+        height = 40, -- Height of the floating window
+        default_mappings = false, -- Bind default mappings
+        debug = false, -- Print debug information
+        opacity = nil, -- 0-100 opacity level of the floating window where 100 is fully transparent.
+        post_open_hook = nil, -- A function taking two arguments, a buffer and a window to be ran as a hook.
+        -- You can use "default_mappings = true" setup option
+        -- Or explicitly set keybindings
+        vim.cmd("nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>"),
+        vim.cmd("nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>"),
+        vim.cmd("nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>"),
+      })
+    end,
+  },
+  {
+    "folke/todo-comments.nvim",
+    event = "BufRead",
+    config = function()
+      require("todo-comments").setup()
+    end,
+  },
+  {
+    "f-person/git-blame.nvim",
+    event = "BufRead",
+    config = function()
+      vim.cmd "highlight default link gitblame SpecialComment"
+      vim.g.gitblame_enabled = 0
+    end,
+  },
 }
 
 require("go").setup({
-	goimport = "goimports",
-	gofmt = "gofumpt",
-	max_line_len = 120,
+  goimport = "goimports",
+  gofmt = "gofumpt",
+  max_line_len = 120,
 })
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
@@ -216,9 +231,9 @@ require("go").setup({
 --   command = "setlocal wrap",
 -- })
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "zsh",
-	callback = function()
-		-- let treesitter use bash highlight for zsh files as well
-		require("nvim-treesitter.highlight").attach(0, "bash")
-	end,
+  pattern = "zsh",
+  callback = function()
+    -- let treesitter use bash highlight for zsh files as well
+    require("nvim-treesitter.highlight").attach(0, "bash")
+  end,
 })
