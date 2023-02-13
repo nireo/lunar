@@ -11,7 +11,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
-lvim.colorscheme = "lunar"
+lvim.colorscheme = "neobones"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -156,13 +156,6 @@ linters.setup({
 })
 
 -- Additional Plugins
--- lvim.plugins = {
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
--- }
---
 lvim.plugins = {
   { "ray-x/go.nvim" },
   {
@@ -216,6 +209,16 @@ lvim.plugins = {
       vim.g.gitblame_enabled = 0
     end,
   },
+  {
+    "ray-x/guihua.lua"
+  },
+  {
+    "mcchrish/zenbones.nvim",
+    -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+    -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+    -- In Vim, compat mode is turned on as Lush only works in Neovim.
+    requires = "rktjmp/lush.nvim"
+  }
 }
 
 require("go").setup({
@@ -223,6 +226,9 @@ require("go").setup({
   gofmt = "gofumpt",
   max_line_len = 120,
 })
+
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
