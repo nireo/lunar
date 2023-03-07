@@ -11,12 +11,19 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
-lvim.colorscheme = "neobones"
+lvim.colorscheme = "lunar"
+
+vim.g.modus_dim_inactive_window = 0
+vim.g.modus_yellow_comments = 1
+vim.g.modus_faint_syntax = 1
+
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
 vim.opt.linebreak = true
 vim.opt.ignorecase = true
+
+vim.g.termguicolors = true
 
 vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
 
@@ -81,6 +88,7 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
 vim.opt.wrap = true
+
 
 -- generic LSP settings
 
@@ -218,6 +226,12 @@ lvim.plugins = {
     -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
     -- In Vim, compat mode is turned on as Lush only works in Neovim.
     requires = "rktjmp/lush.nvim"
+  },
+  {
+    "shortcuts/no-neck-pain.nvim"
+  },
+  {
+    "ishan9299/modus-theme-vim"
   }
 }
 
